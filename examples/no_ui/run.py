@@ -13,9 +13,9 @@ from vnpy.app.cta_strategy import CtaStrategyApp
 from vnpy.app.cta_strategy.base import EVENT_CTA_LOG
 
 
-SETTINGS["log.active"] = True
-SETTINGS["log.level"] = INFO
-SETTINGS["log.console"] = True
+SETTINGS["log.active"] = True  # 是否记录日志
+SETTINGS["log.level"] = INFO  # 日志的详细程度，INFO是最低程度的，但也会记录绝大多数的日志
+SETTINGS["log.console"] = True  # 是否将日志在CMD中逐条打出
 
 
 ctp_setting = {
