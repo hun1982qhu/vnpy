@@ -62,7 +62,7 @@ from vnpy.app.data_manager import DataManagerApp
 # from vnpy.app.data_recorder import DataRecorderApp
 from vnpy.app.risk_manager import RiskManagerApp
 from vnpy.app.portfolio_manager import PortfolioManagerApp
-from vnpy.app.paper_account import PaperAccountApp
+# from vnpy.app.paper_account import PaperAccountApp
 
 
 def main():
@@ -131,7 +131,7 @@ def main():
     # main_engine.add_app(DataRecorderApp)
     main_engine.add_app(RiskManagerApp)
     main_engine.add_app(PortfolioManagerApp)
-    main_engine.add_app(PaperAccountApp)
+    # main_engine.add_app(PaperAccountApp)
 
 
     
