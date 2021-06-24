@@ -71,16 +71,7 @@ from vnpy.app.risk_manager import RiskManagerApp
 from vnpy.app.portfolio_manager import PortfolioManagerApp
 # from vnpy.app.paper_account import PaperAccountApp
 
-ctp_setting = {
-    "用户名": "167465",
-    "密码": "hun829248",
-    "经纪商代码": "9999",
-    "交易服务器": "180.168.146.187:10202",
-    "行情服务器": "180.168.146.187:10212",
-    "产品名称": "simnow_client_test",
-    "授权编码": "0000000000000000",
-    "产品信息": "simnow_client_test"
-}
+
 
 DAY_START = time(8, 45)
 DAY_END = time(15, 1)
@@ -109,41 +100,20 @@ def run_child():
     Running in the child process.
     """
 
+    ctp_setting = {
+    "用户名": "167465",
+    "密码": "hun829248",
+    "经纪商代码": "9999",
+    "交易服务器": "180.168.146.187:10202",
+    "行情服务器": "180.168.146.187:10212",
+    "产品名称": "simnow_client_test",
+    "授权编码": "0000000000000000",
+    "产品信息": "simnow_client_test"
+    }
+
     qapp = create_qapp()
 
     event_engine = EventEngine()
-    main_engine = MainEngine(event_engine)  # 主引擎是事件驱动的，因此只有event_engine这一个入参
-    main_engine.add_gateway(CtpGateway)  # 主引擎添加数据接口
-    cta_engine = main_engine.add_app(CtaStrategyApp)  # 主引擎添加CtaStrategyApp，即创建了cta_engine
-    main_engine.write_log("主引擎创建成功")  # 上述步骤全部完成即创建了一个用户所需要的的主引擎
-
-    main_engine.connect(ctp_setting, "CTP")
-    main_engine.write_log("连接CTP接口")
-
-    sleep(10)
-
-    current_time = datetime.now().time()
-
-    main_engine.send_email("交易界面启动", f"trading ui started, {current_time}", SETTINGS["email.receiver"])
-
-    while True:
-        sleep(10)
-
-        trading = check_trading_period()
-        if not trading:
-            print("关闭子进程")
-            current_time = datetime.now().time()
-            main_engine.send_email("终极震荡指标策略关闭", f"trading closed, {current_time}", SETTINGS["email.receiver"])
-            main_engine.close()
-            sys.exit(0)
-
-
-def main():
-    """"""
-    qapp = create_qapp()
-
-    event_engine = EventEngine()
-
     main_engine = MainEngine(event_engine)
 
     main_engine.add_gateway(CtpGateway)
@@ -213,6 +183,26 @@ def main():
 
     qapp.exec()
 
+    main_engine.connect(ctp_setting, "CTP")
+    main_engine.write_log("连接CTP接口")
+
+    sleep(10)
+
+    current_time = datetime.now().time()
+
+    main_engine.send_email("交易界面启动", f"trading ui started, {current_time}", SETTINGS["email.receiver"])
+
+    while True:
+        sleep(10)
+
+        trading = check_trading_period()
+        if not trading:
+            print("关闭子进程")
+            current_time = datetime.now().time()
+            main_engine.send_email("终极震荡指标策略关闭", f"trading closed, {current_time}", SETTINGS["email.receiver"])
+            main_engine.close()
+            sys.exit(0)
+
 
 def run_parent():
     """
@@ -243,6 +233,3 @@ def run_parent():
 
 if __name__ == "__main__":
     run_parent()
-
-if __name__ == "__main__":
-    main()
