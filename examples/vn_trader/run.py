@@ -47,8 +47,8 @@ from vnpy.gateway.ctptest import CtptestGateway
 # from vnpy.gateway.xgj import XgjGateway
 # from vnpy.gateway.alpaca import AlpacaGateway
 
-from vnpy.app.cta_strategy import CtaStrategyApp
-from vnpy.app.cta_backtester import CtaBacktesterApp
+from vnpy_ctastrategy import CtaStrategyApp
+from vnpy_ctabacktester import CtaBacktesterApp
 from vnpy.app.spread_trading import SpreadTradingApp
 from vnpy.app.algo_trading import AlgoTradingApp
 from vnpy.app.option_master import OptionMasterApp
