@@ -1,15 +1,14 @@
 from abc import ABC, abstractmethod
-from datetime import datetime
-from types import ModuleType
 from dataclasses import dataclass
+from datetime import datetime
 from importlib import import_module
+from types import ModuleType
 
-from .constant import Interval, Exchange
+from .constant import Exchange, Interval
+from .locale import _
 from .object import BarData, TickData
 from .setting import SETTINGS
 from .utility import ZoneInfo
-from .locale import _
-
 
 DB_TZ = ZoneInfo(SETTINGS["database.timezone"])
 
@@ -75,7 +74,7 @@ class BaseDatabase(ABC):
         exchange: Exchange,
         interval: Interval,
         start: datetime,
-        end: datetime
+        end: datetime,
     ) -> list[BarData]:
         """
         Load bar data from database.
@@ -84,11 +83,7 @@ class BaseDatabase(ABC):
 
     @abstractmethod
     def load_tick_data(
-        self,
-        symbol: str,
-        exchange: Exchange,
-        start: datetime,
-        end: datetime
+        self, symbol: str, exchange: Exchange, start: datetime, end: datetime
     ) -> list[TickData]:
         """
         Load tick data from database.
@@ -97,10 +92,7 @@ class BaseDatabase(ABC):
 
     @abstractmethod
     def delete_bar_data(
-        self,
-        symbol: str,
-        exchange: Exchange,
-        interval: Interval
+        self, symbol: str, exchange: Exchange, interval: Interval
     ) -> int:
         """
         Delete all bar data with given symbol + exchange + interval.
@@ -108,11 +100,7 @@ class BaseDatabase(ABC):
         pass
 
     @abstractmethod
-    def delete_tick_data(
-        self,
-        symbol: str,
-        exchange: Exchange
-    ) -> int:
+    def delete_tick_data(self, symbol: str, exchange: Exchange) -> int:
         """
         Delete all tick data with given symbol + exchange.
         """
@@ -121,14 +109,14 @@ class BaseDatabase(ABC):
     @abstractmethod
     def get_bar_overview(self) -> list[BarOverview]:
         """
-        Return bar data avaible in database.
+        Return bar data available in database.
         """
         pass
 
     @abstractmethod
     def get_tick_overview(self) -> list[TickOverview]:
         """
-        Return tick data avaible in database.
+        Return tick data available in database.
         """
         pass
 
@@ -156,4 +144,4 @@ def get_database() -> BaseDatabase:
 
     # Create database object from module
     database = module.Database()
-    return database     # type: ignore
+    return database  # type: ignore
